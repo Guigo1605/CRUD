@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
-const User = {
-    create: (user, callback) => {
-        const query = 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)';
-        db.query(query, [user.username, user.password, user.role], (err, results) => {
+const Usuario = {
+    create: (animal, callback) => {
+        const query = 'INSERT INTO animal (nome, data_nasc, RGA, descricao) VALUES (?, ?, ?)';
+        db.query(query, [animal.nome, animal.data_nasc, animal.RGA, animal.descricao], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -12,7 +12,7 @@ const User = {
     },
 
     findById: (id, callback) => {
-        const query = 'SELECT * FROM users WHERE id = ?';
+        const query = 'SELECT * FROM animal WHERE id = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err);
@@ -21,9 +21,9 @@ const User = {
         });
     },
 
-    findByUsername: (username, callback) => {
-        const query = 'SELECT * FROM users WHERE username = ?';
-        db.query(query, [username], (err, results) => {
+    findByNome: (nome, callback) => {
+        const query = 'SELECT * FROM animal WHERE nome = ?';
+        db.query(query, [usuarioname], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -31,9 +31,9 @@ const User = {
         });
     },
 
-    update: (id, user, callback) => {
-        const query = 'UPDATE users SET username = ?, password = ?, role = ? WHERE id = ?';
-        db.query(query, [user.username, user.password, user.role, id], (err, results) => {
+    update: (id, animal, callback) => {
+        const query = 'UPDATE animal SET nome = ?, data_nasc = ?, RGA = ?, descricao = ?, WHERE id = ?';
+        db.query(query, [animal.nome, usuario.data_nasc, animal.RGA, animal.descricao, id], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -42,7 +42,7 @@ const User = {
     },
 
     delete: (id, callback) => {
-        const query = 'DELETE FROM users WHERE id = ?';
+        const query = 'DELETE FROM animal WHERE id = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err);
@@ -52,7 +52,7 @@ const User = {
     },
 
     getAll: (callback) => {
-        const query = 'SELECT * FROM users';
+        const query = 'SELECT * FROM animal';
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err);
@@ -61,9 +61,9 @@ const User = {
         });
     },
 
-    searchByName: (name, callback) => {
-        const query = 'SELECT * FROM users WHERE username LIKE ?';
-        db.query(query, [`%${name}%`], (err, results) => {
+    searchByName: (nome, callback) => {
+        const query = 'SELECT * FROM animal WHERE nome LIKE ?';
+        db.query(query, [`%${nome}%`], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -72,4 +72,4 @@ const User = {
     },    
 };
 
-module.exports = User;
+module.exports = animal;

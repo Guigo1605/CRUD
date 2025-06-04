@@ -1,0 +1,73 @@
+<h1>Lista de usuários</h1>
+
+<form id="searchForm" method="GET" action="/animal">
+    <div class="form-group">
+        <label for="search">Buscar Animal:</label>
+        <input type="text" id="search" name="search" class="form-control" placeholder="Digite o nome do animal" autocomplete="off">
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>RGA</th>
+            <th>Observações</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody id="animal">
+        <% animal.forEach(animal => { %>
+            <tr>
+                <td><%= animal.id %></td>
+                <td><%= animal.nome %></td>
+                <td><%= animal.data_nasc %></td>
+                <td><%= animal.RGA %></td>
+                <td><%= animal.descricao %></td>
+                <td>
+                    <a href="/animal/<%= animal.id %>" class="btn btn-primary">View</a>
+                    <a href="/animal/<%= animal.id %>/edit" class="btn btn-warning">Edit</a>
+                    <form action="/animal/<%= animal.id %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<a class="btn btn-danger" href="/animal/new">Cadastrar novo animal </a>
+
+<script>
+    document.getElementById('search').addEventListener('input', function() {
+        const searchValue = this.value;
+
+        fetch(`/usuarios/search?search=${encodeURIComponent(searchValue)}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('usuarioTableBody');
+                tbody.innerHTML = ''; // Clear existing rows
+
+                data.usuarios.forEach(animal => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${animal.id}</td>
+                        <td>${animal.nome}</td>
+                        <td>${animal.data_nasc}</td>
+                        <td>${animal.RGA}</td>
+                        <td>${animal.descricao}</td>
+                        <td>
+                            <a href="/animal/${animal.id}" class="btn btn-primary">View</a>
+                            <a href="/animal/${animal.id}/edit" class="btn btn-warning">Edit</a>
+                            <form action="/animal/${animal.id}?_method=DELETE" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
